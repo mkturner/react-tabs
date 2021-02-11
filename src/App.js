@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaAngleDoubleRight } from 'react-icons/fa';
-// ATTENTION!!!!!!!!!!
-// I SWITCHED TO PERMANENT DOMAIN
+
 const url = 'https://course-api.com/react-tabs-project';
 function App() {
   // setup state variables
@@ -23,13 +22,66 @@ function App() {
   // empty dependency array means only run 1 time
   useEffect(() => {
     fetchJobs();
-  }, [input]);
+  }, []);
 
   if (loading) {
-    return <section className='section'> loading</section>;
+    return (
+      <section className='section loading'>
+        <h1>Loading...</h1>
+      </section>
+    );
   }
 
-  return <h2>tabs project setup</h2>;
+  // destructure info from jobs after data loaded
+  // MUST happen after useEffect, where we fetch data
+  const { company, dates, duties, title } = jobs[index];
+
+  return (
+    <section className='section'>
+      <div className='title'>
+        <h2>Experience</h2>
+        <div className='underliner'></div>
+      </div>
+      <div className='jobs-center'>
+        {/* btn container */}
+        <div className='btn-container'>
+          {/* iterate over jobs */}
+          {jobs.map((job, current) => {
+            {
+              /* changing index will force re-render */
+            }
+            return (
+              <button
+                key={job.id}
+                onClick={() => setIndex(index)}
+                // highlight button if it is same as the current job
+                className={`job-btn ${current === index ? 'active-btn' : ''}`}
+              >
+                {job.company}
+              </button>
+            );
+          })}
+        </div>
+        {/* job info */}
+        <article className='job-info'>
+          <h3>{title}</h3>
+          <h4>{company}</h4>
+          <p className='job-date'>{dates}</p>
+          {/* iterate over duties with Array.map() */}
+          {duties.map((duty, index) => {
+            return (
+              <div className='job-desc' key={index}>
+                {/* add icon from font awesome */}
+                <FaAngleDoubleRight className='job-icon' />
+                {/* display text */}
+                <p>{duty}</p>
+              </div>
+            );
+          })}
+        </article>
+      </div>
+    </section>
+  );
 }
 
 export default App;
