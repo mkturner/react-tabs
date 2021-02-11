@@ -47,12 +47,10 @@ function App() {
         <div className='btn-container'>
           {/* iterate over jobs */}
           {jobs.map((job, current) => {
-            {
-              /* changing index will force re-render */
-            }
             return (
               <button
                 key={job.id}
+                // changing index will force re-render with new job data
                 onClick={() => setIndex(index)}
                 // highlight button if it is same as the current job
                 className={`job-btn ${current === index ? 'active-btn' : ''}`}
